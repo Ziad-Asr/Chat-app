@@ -4,24 +4,19 @@ const UserModel = require("../models/UserModel");
 async function updateUserDetails(request, response) {
   try {
     const token = request.cookies.token || "";
-
     const user = await getUserDetailsFromToken(token);
-
     const { name, profile_pic } = request.body;
 
     const updateUser = await UserModel.updateOne(
       { _id: user._id },
-      {
-        name,
-        profile_pic,
-      }
+      { name, profile_pic }
     );
 
     const userInfomation = await UserModel.findById(user._id);
 
     return response.json({
       message: "user update successfully",
-      data: userInfomation,
+      data: userInfomation, // Send data I got from DB after update (not updateUser)
       success: true,
     });
   } catch (error) {

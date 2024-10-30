@@ -3,9 +3,7 @@ const UserModel = require("../models/UserModel");
 async function searchUser(request, response) {
   try {
     const { search } = request.body;
-
     const query = new RegExp(search, "i", "g");
-
     const user = await UserModel.find({
       $or: [{ name: query }, { email: query }],
     }).select("-password");
